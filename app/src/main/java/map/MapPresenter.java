@@ -39,27 +39,20 @@ public class MapPresenter implements OnCameraChangeListener {
                 .subscribe(viewModel.locationUpdated());
     }
 
-    public LatLng getLocation() {
-        return locationService.getCashedLocation();
-    }
-
     @Override
     public void onCameraChanged(LatLng latLng, int zoom) {
         locationService.updateLocation(latLng);
-        getAddress();
+        getAddress(latLng);
     }
 
     public void locationSelected() {
         screenNavigator.pop();
     }
 
-    public void getAddress() {
-        if (locationService.getCashedLocation() != null) {
-            addressRequester.getAddress(Utils.formatLocationString(locationService.getCashedLocation().latitude, locationService.getCashedLocation().longitude))
+    public void getAddress(LatLng location) {
+        addressRequester.getAddress(Utils.formatLocationString(location.latitude, location.longitude))
                     .subscribe(viewModel.addressUpdated());
-        } else {
-            initMap();
-        }
+
     }
 
 }
