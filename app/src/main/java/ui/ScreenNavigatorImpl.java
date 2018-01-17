@@ -35,10 +35,6 @@ public class ScreenNavigatorImpl implements ScreenNavigator {
         return router != null && router.handleBack();
     }
 
-    @Override
-    public void clear() {
-        router = null;
-    }
 
     @Override
     public void goToMap() {

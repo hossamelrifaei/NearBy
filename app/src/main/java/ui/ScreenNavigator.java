@@ -13,7 +13,5 @@ public interface ScreenNavigator {
 
     boolean pop();
 
-    void clear();
-
     void goToMap();
 }

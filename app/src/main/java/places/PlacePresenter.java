@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import data.PlacesRequester;
 import di.ScreenScope;
-import home.OnPermissionListener;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import service.LocationService;
 import service.PermissionService;
@@ -26,7 +25,6 @@ public class PlacePresenter {
 
     private final LocationService locationService;
     private final PermissionService permissionService;
-    private OnPermissionListener permissionListener;
 
     @Inject
     PlacePresenter(PlacesViewModel viewModel, ScreenNavigator screenNavigator, PlacesRequester placesRequester, LocationService locationService, PermissionService permissionService) {
@@ -49,15 +47,7 @@ public class PlacePresenter {
                                 .doOnEvent((d, t) -> viewModel.loadingUpdated().accept(false))
                                 .subscribe(viewModel.placesUpdated(), viewModel.onError());
                     });
-        } else {
-
-            permissionListener.requestPermission();
         }
-
-    }
-
-    public void setPermissionListener(OnPermissionListener permissionListener) {
-        this.permissionListener = permissionListener;
 
     }
 
