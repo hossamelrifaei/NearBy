@@ -1,5 +1,6 @@
 package base;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bluelinelabs.conductor.Controller;
+import com.nearby.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -47,13 +49,9 @@ public abstract class BaseController extends Controller {
     protected final View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
         View view = inflater.inflate(layoutRes(), container, false);
         unbinder = ButterKnife.bind(this, view);
-        initPresenter();
         onViewBound(view);
         disposables.addAll(subscriptions());
         return view;
-    }
-
-    protected void initPresenter() {
     }
 
 
@@ -64,6 +62,15 @@ public abstract class BaseController extends Controller {
             unbinder.unbind();
             unbinder = null;
         }
+    }
+
+    public void showErrorDialog(Integer message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.error_title)
+                .setMessage(message)
+                .setPositiveButton(R.string.dialog_ok, null)
+                .create().show();
+
     }
 
     protected void onViewBound(View view) {

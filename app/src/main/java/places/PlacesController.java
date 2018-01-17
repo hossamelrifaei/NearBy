@@ -1,10 +1,13 @@
 package places;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bluelinelabs.conductor.ControllerChangeHandler;
+import com.bluelinelabs.conductor.ControllerChangeType;
 import com.nearby.R;
 
 import javax.inject.Inject;
@@ -36,11 +39,6 @@ public class PlacesController extends BaseController {
         return R.layout.screen_places_list;
     }
 
-    @Override
-    protected void initPresenter() {
-        presenter.start();
-    }
-
     @OnClick(R.id.fab)
     public void fabClicked() {
         presenter.openMap();
@@ -51,6 +49,13 @@ public class PlacesController extends BaseController {
         placesList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         placesList.setAdapter(new PlacesAdapter());
 
+    }
+
+    @Override
+    protected void onChangeEnded(@NonNull ControllerChangeHandler changeHandler, @NonNull ControllerChangeType changeType) {
+        if (changeType.isEnter) {
+            presenter.getCurrentLocation();
+        }
     }
 
     @Override

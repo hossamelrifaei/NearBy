@@ -36,7 +36,7 @@ public class MapPresenter implements OnCameraChangeListener {
     public void initMap() {
         locationService.getLocation()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(viewModel.locationUpdated());
+                .subscribe(viewModel.locationUpdated(), viewModel.onError());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class MapPresenter implements OnCameraChangeListener {
 
     public void getAddress(LatLng location) {
         addressRequester.getAddress(Utils.formatLocationString(location.latitude, location.longitude))
-                    .subscribe(viewModel.addressUpdated());
+                .subscribe(viewModel.addressUpdated(), viewModel.onError());
 
     }
 

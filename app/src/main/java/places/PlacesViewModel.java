@@ -43,17 +43,13 @@ public class PlacesViewModel {
         return placesRelay;
     }
 
-    Consumer<Integer> errorUpdated() {
-        return errorRelay;
-    }
-
     Consumer<Boolean> loadingUpdated() {
         return loadingRelay;
     }
 
     Consumer<Throwable> onError() {
         return throwable -> {
-            errorRelay.accept(R.string.api_error_places);
+            errorRelay.accept(R.string.api_error_address);
         };
     }
 

@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">Near By</string>
     <string name="api_error_places">Error Loading Places</string>
-    <string name="api_error_address">Error Loading Places</string>
+    <string name="api_error_address">Error Loading Address</string>
     <string name="title_activity_maps">Map</string>
     <string name="select_location">Select Location</string>
     <string name="address_title">Address</string>
+    <string name="error_title">Error</string>
+    <string name="dialog_ok">OK</string>
 </resources>

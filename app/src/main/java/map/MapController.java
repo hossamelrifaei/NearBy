@@ -85,6 +85,13 @@ public class MapController extends BaseController implements OnMapInitializedLis
                         .subscribe(location -> {
                     mapView.setCenterZoom(location, 17);
                     presenter.getAddress(location);
+                }),
+                viewModel.error()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(errorRes -> {
+                    if (errorRes != -1) {
+                        showErrorDialog(errorRes);
+                    }
                 })
         };
     }

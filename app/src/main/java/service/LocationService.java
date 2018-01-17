@@ -34,11 +34,6 @@ public class LocationService {
         cashedLocation = latLng;
     }
 
-    public LatLng getCashedLocation() {
-        return cashedLocation;
-    }
-
-
     @SuppressLint("MissingPermission")
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     public Single<LatLng> getLocation() {

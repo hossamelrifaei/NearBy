@@ -22,7 +22,6 @@ public class PlacePresenter {
     private final PlacesViewModel viewModel;
     private final ScreenNavigator screenNavigator;
     private final PlacesRequester placesRequester;
-
     private final LocationService locationService;
     private final PermissionService permissionService;
 
@@ -50,11 +49,6 @@ public class PlacePresenter {
         }
 
     }
-
-    public void start() {
-        getCurrentLocation();
-    }
-
 
     public void openMap() {
         screenNavigator.goToMap();
