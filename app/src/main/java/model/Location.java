@@ -15,8 +15,8 @@ public abstract class Location {
         return new AutoValue_Location.MoshiJsonAdapter(moshi);
     }
 
-    public abstract String lat();
+    public abstract double lat();
 
-    public abstract String lng();
+    public abstract double lng();
 
 }

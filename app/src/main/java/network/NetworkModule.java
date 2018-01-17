@@ -23,6 +23,6 @@ public abstract class NetworkModule {
     @Provides
     @Named("base_url")
     static String provideBaseUrl() {
-        return "https://maps.googleapis.com/maps/api/place/";
+        return "https://maps.googleapis.com/maps/api/";
     }
 }

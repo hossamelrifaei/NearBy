@@ -1,29 +1,35 @@
 package places;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.nearby.R;
 
 import javax.inject.Inject;
 
 import base.BaseController;
-import base.Constants;
-import home.OnPermissionListener;
+import butterknife.BindView;
+import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by hossam on 1/14/18.
  */
 
-public class PlacesController extends BaseController implements OnPermissionListener {
-
+public class PlacesController extends BaseController {
     @Inject
     PlacesViewModel viewModel;
     @Inject
     PlacePresenter presenter;
+    @BindView(R.id.places_list)
+    RecyclerView placesList;
+    @BindView(R.id.loading_indicator)
+    View loadingView;
+    @BindView(R.id.tv_error)
+    TextView errorTextView;
 
     @Override
     protected int layoutRes() {
@@ -32,37 +38,47 @@ public class PlacesController extends BaseController implements OnPermissionList
 
     @Override
     protected void initPresenter() {
-        presenter.setPermissionListener(this);
         presenter.start();
     }
 
-    @Override
-    public boolean HasPermission() {
-        return ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    @OnClick(R.id.fab)
+    public void fabClicked() {
+        presenter.openMap();
     }
 
     @Override
-    public void requestPermission() {
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+    protected void onViewBound(View view) {
+        placesList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        placesList.setAdapter(new PlacesAdapter());
+
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    presenter.start();
-
-                }
-            }
-
-        }
+    protected Disposable[] subscriptions() {
+        return new Disposable[]{
+                viewModel.loading()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(loading -> {
+                    loadingView.setVisibility(loading ? View.VISIBLE : View.GONE);
+                    placesList.setVisibility(loading ? View.GONE : View.VISIBLE);
+                    errorTextView.setVisibility(loading ? View.GONE : errorTextView.getVisibility());
+                }),
+                viewModel.places()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(((PlacesAdapter) placesList.getAdapter())::setData),
+                viewModel.error()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(errorRes -> {
+                    if (errorRes == -1) {
+                        errorTextView.setText(null);
+                        errorTextView.setVisibility(View.GONE);
+                    } else {
+                        errorTextView.setVisibility(View.VISIBLE);
+                        placesList.setVisibility(View.GONE);
+                        errorTextView.setText(errorRes);
+                    }
+                })
+        };
     }
+
 }

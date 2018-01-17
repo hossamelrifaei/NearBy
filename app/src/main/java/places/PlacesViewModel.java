@@ -17,7 +17,6 @@ import model.Place;
  */
 @ScreenScope
 public class PlacesViewModel {
-    private static final int ERROR_CODE = -1;
     private final BehaviorRelay<List<Place>> placesRelay = BehaviorRelay.create();
     private final BehaviorRelay<Integer> errorRelay = BehaviorRelay.create();
     private final BehaviorRelay<Boolean> loadingRelay = BehaviorRelay.create();
@@ -40,7 +39,7 @@ public class PlacesViewModel {
     }
 
     Consumer<List<Place>> placesUpdated() {
-        errorRelay.accept(ERROR_CODE);
+        errorRelay.accept(-1);
         return placesRelay;
     }
 

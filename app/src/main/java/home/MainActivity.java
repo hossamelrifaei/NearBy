@@ -20,6 +20,4 @@ public class MainActivity extends BaseActivity {
     protected Controller initializeScreen() {
         return new PlacesController();
     }
-
-
 }

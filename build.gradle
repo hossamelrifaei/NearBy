@@ -38,7 +38,8 @@ ext {
     conductorVersion = '2.1.4'
     constraintLayoutVersion = '1.0.2'
     butterKnifeVersion = '8.8.1'
-    playServiceLocationVersion = '11.0.0'
+    playServiceLocationVersion = '11.8.0'
+    picassoVersion='2.5.2'
 }
 
 task clean(type: Delete) {

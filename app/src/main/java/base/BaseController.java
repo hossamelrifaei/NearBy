@@ -56,6 +56,7 @@ public abstract class BaseController extends Controller {
     protected void initPresenter() {
     }
 
+
     @Override
     protected void onDestroy() {
         disposables.clear();

@@ -5,7 +5,5 @@ package home;
  */
 
 public interface OnPermissionListener {
-    boolean HasPermission();
-
     void requestPermission();
 }

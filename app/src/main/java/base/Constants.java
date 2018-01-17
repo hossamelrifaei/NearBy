@@ -6,5 +6,5 @@ package base;
 
 public class Constants {
     public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    public static final String AMP_API_KEY = "AIzaSyDnNevDPTpgOIs6-EhdWXGsxQt2qO6ag98";
+    public static final String MAP_API_KEY = "AIzaSyDnNevDPTpgOIs6-EhdWXGsxQt2qO6ag98";
 }

@@ -10,6 +10,9 @@ import retrofit2.http.Query;
  */
 
 public interface PlacesService {
-    @GET("nearbysearch/json?radius=500&key=" + Constants.AMP_API_KEY)
+    @GET("place/nearbysearch/json?radius=200&key=" + Constants.MAP_API_KEY)
     Single<PlacesResponse> getPlacesNearBy(@Query("location") String location);
+
+    @GET("geocode/json?" + Constants.MAP_API_KEY)
+    Single<AddressResponse> getLocationAddress(@Query("latlng") String location);
 }

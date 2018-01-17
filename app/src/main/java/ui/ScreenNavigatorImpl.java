@@ -3,10 +3,12 @@ package ui;
 import com.bluelinelabs.conductor.Controller;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
+import com.bluelinelabs.conductor.changehandler.FadeChangeHandler;
 
 import javax.inject.Inject;
 
 import di.ActivityScope;
+import map.MapController;
 
 /**
  * Created by hossam on 1/14/18.
@@ -40,6 +42,11 @@ public class ScreenNavigatorImpl implements ScreenNavigator {
 
     @Override
     public void goToMap() {
+        if (router != null) {
+            router.pushController(RouterTransaction.with(MapController.newInstance())
+                    .pushChangeHandler(new FadeChangeHandler())
+                    .popChangeHandler(new FadeChangeHandler()));
+        }
 
     }
 }

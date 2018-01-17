@@ -1,9 +1,13 @@
 package base;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 
@@ -55,8 +59,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             throw new NullPointerException("Activity must have view with id: screen_container");
         }
         router = Conductor.attachRouter(this, container, savedInstanceState);
-        screenNavigator.initWithRouter(router, initializeScreen());
-        monitorBackStackForRouter();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermission();
+        }
 
         super.onCreate(savedInstanceState);
     }
@@ -106,5 +111,35 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!screenNavigator.pop()) {
+            super.onBackPressed();
+        }
+    }
+
+    public void requestPermission() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    screenNavigator.initWithRouter(router, initializeScreen());
+                    monitorBackStackForRouter();
+
+                }
+            }
+
+        }
     }
 }

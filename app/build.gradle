@@ -33,6 +33,8 @@ dependencies {
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation 'com.google.android.gms:play-services-maps:11.8.0'
+    implementation 'com.android.support:appcompat-v7:26.1.0'
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
@@ -40,6 +42,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     implementation "com.squareup.moshi:moshi:$moshiVersion"
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
     annotationProcessor "com.ryanharter.auto.value:auto-value-moshi:$autoValueMoshiVersion"
     compileOnly "com.ryanharter.auto.value:auto-value-moshi-annotations:$autoValueMoshiVersion"
     implementation "com.google.android.gms:play-services-location:$playServiceLocationVersion"
@@ -52,4 +55,6 @@ dependencies {
     implementation "com.jakewharton:butterknife:$butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
     implementation "com.bluelinelabs:conductor:$conductorVersion"
+    implementation "com.google.android.gms:play-services-maps:$playServiceLocationVersion"
+    compile 'com.airbnb.android:airmapview:1.5.0'
 }
