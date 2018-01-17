@@ -54,8 +54,12 @@ public class MapPresenter implements OnCameraChangeListener {
     }
 
     public void getAddress() {
-        addressRequester.getAddress(Utils.formatLocationString(locationService.getCashedLocation().latitude, locationService.getCashedLocation().longitude))
-                .subscribe(viewModel.addressUpdated());
+        if (locationService.getCashedLocation() != null) {
+            addressRequester.getAddress(Utils.formatLocationString(locationService.getCashedLocation().latitude, locationService.getCashedLocation().longitude))
+                    .subscribe(viewModel.addressUpdated());
+        } else {
+            initMap();
+        }
     }
 
 }

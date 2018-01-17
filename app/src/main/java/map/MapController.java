@@ -61,7 +61,7 @@ public class MapController extends BaseController implements OnMapInitializedLis
         if (changeType.isEnter) {
             mapView.setOnMapInitializedListener(this);
             mapView.initialize(((AppCompatActivity) getActivity()).getSupportFragmentManager());
-            presenter.getAddress();
+            presenter.initMap();
         }
     }
 
@@ -85,6 +85,7 @@ public class MapController extends BaseController implements OnMapInitializedLis
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(location -> {
                     mapView.setCenterZoom(location, 17);
+                    presenter.getAddress();
                 })
         };
     }
