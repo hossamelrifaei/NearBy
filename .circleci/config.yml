@@ -3,17 +3,11 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-25-alpha
+      - image: circleci/android:api-26-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - run:
-          name: export KEYSTORE path
-          command: echo 'export KEYSTORE=$(pwd)/signing.jks' >> $BASH_ENV
-      - run:
-          name: Download keystore signing
-          command: bash ./misc/download_keystore.sh
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
