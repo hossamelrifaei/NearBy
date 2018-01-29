@@ -3,11 +3,17 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-26-alpha
+      - image: circleci/android:api-25-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - run:
+          name: export KEYSTORE path
+          command: echo 'export KEYSTORE=$(pwd)/signing.jks' >> $BASH_ENV
+      - run:
+          name: Download keystore signing
+          command: bash ./misc/download_keystore.sh
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
@@ -18,6 +24,12 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
+          name: Build assembleRelease
+          command: ./gradlew assembleRelease
+      - store_artifacts:
+          path: app/build/outputs/apk
+          destination: apk
+      - run:
           name: Run Tests
           command: ./gradlew lint test
       - store_artifacts:
@@ -25,7 +37,3 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
-          test:
-      - (./gradlew assemble)
-       
-      - cp -r app/build/outputs $CIRCLE_ARTIFACTS 
