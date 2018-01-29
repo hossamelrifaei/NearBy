@@ -29,4 +29,8 @@ jobs:
       - store_test_results:
           path: app/build/test-results
   test:
-    - ./gradlew assembleDebug   
+   override:
+  # start the build
+    - ./gradlew assembleDebug
+ # copy the build outputs to artifacts
+    - cp -r app/build/outputs/ $CIRCLE_ARTIFACTS
