@@ -25,3 +25,7 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+          test:
+      - (./gradlew assemble)
+       
+      - cp -r app/build/outputs $CIRCLE_ARTIFACTS 
